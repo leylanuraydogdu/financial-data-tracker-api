@@ -12,6 +12,9 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// Repositories
+builder.Services.AddScoped<FinancialTracker.Repositories.IStockRepository, FinancialTracker.Repositories.StockRepository>();
+
 var app = builder.Build();
 
 // Apply pending migrations on startup
