@@ -23,6 +23,9 @@ builder.Services.AddHttpClient<FinancialTracker.ExternalApis.IAlphaVantageServic
 
 var app = builder.Build();
 
+// Global Exception Handling
+app.UseMiddleware<FinancialTracker.Middleware.ExceptionMiddleware>();
+
 // Apply pending migrations on startup
 using (var scope = app.Services.CreateScope())
 {
