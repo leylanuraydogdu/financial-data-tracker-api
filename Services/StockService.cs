@@ -6,10 +6,12 @@ namespace FinancialTracker.Services;
 public class StockService : IStockService
 {
     private readonly IStockRepository _stockRepository;
+    private readonly FinancialTracker.ExternalApis.IAlphaVantageService _alphaVantageService;
 
-    public StockService(IStockRepository stockRepository)
+    public StockService(IStockRepository stockRepository, FinancialTracker.ExternalApis.IAlphaVantageService alphaVantageService)
     {
         _stockRepository = stockRepository;
+        _alphaVantageService = alphaVantageService;
     }
 
     public async Task<IEnumerable<Stock>> GetAllStocksAsync()
@@ -42,7 +44,16 @@ public class StockService : IStockService
         // 3. Veritabanına kaydet
         var savedStock = await _stockRepository.AddStockAsync(stock);
         
-        // TODO: İleriki adımda burada Alpha Vantage API'den geçmiş verileri çekeceğiz.
+        // 4. Alpha Vantage'dan güncel fiyatı çek ve kaydet
+        var latestPrice = await _alphaVantageService.GetLatestPriceAsync(savedStock.Symbol);
+        if (latestPrice != null)
+        {
+            latestPrice.StockId = savedStock.Id;
+            await _stockRepository.AddStockPriceAsync(latestPrice);
+            
+            // Fiyatı Stock nesnesine de ekle ki DTO'da hemen görünebilsin
+            savedStock.PriceHistory.Add(latestPrice);
+        }
         
         return savedStock;
     }

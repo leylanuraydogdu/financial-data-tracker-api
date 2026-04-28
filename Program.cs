@@ -18,6 +18,9 @@ builder.Services.AddScoped<FinancialTracker.Repositories.IStockRepository, Finan
 // Services
 builder.Services.AddScoped<FinancialTracker.Services.IStockService, FinancialTracker.Services.StockService>();
 
+// External APIs
+builder.Services.AddHttpClient<FinancialTracker.ExternalApis.IAlphaVantageService, FinancialTracker.ExternalApis.AlphaVantageService>();
+
 var app = builder.Build();
 
 // Apply pending migrations on startup
