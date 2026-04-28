@@ -15,6 +15,9 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 // Repositories
 builder.Services.AddScoped<FinancialTracker.Repositories.IStockRepository, FinancialTracker.Repositories.StockRepository>();
 
+// Services
+builder.Services.AddScoped<FinancialTracker.Services.IStockService, FinancialTracker.Services.StockService>();
+
 var app = builder.Build();
 
 // Apply pending migrations on startup
