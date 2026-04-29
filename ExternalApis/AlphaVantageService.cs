@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Text.Json;
 using FinancialTracker.Models;
 
@@ -42,12 +43,12 @@ public class AlphaVantageService : IAlphaVantageService
         {
             return new StockPrice
             {
-                Date = DateTime.Parse(quoteElement.GetProperty("07. latest trading day").GetString()!),
-                OpenPrice = decimal.Parse(quoteElement.GetProperty("02. open").GetString()!),
-                HighPrice = decimal.Parse(quoteElement.GetProperty("03. high").GetString()!),
-                LowPrice = decimal.Parse(quoteElement.GetProperty("04. low").GetString()!),
-                ClosePrice = decimal.Parse(quoteElement.GetProperty("05. price").GetString()!),
-                Volume = long.Parse(quoteElement.GetProperty("06. volume").GetString()!)
+                Date = DateTime.Parse(quoteElement.GetProperty("07. latest trading day").GetString()!, CultureInfo.InvariantCulture),
+                OpenPrice = decimal.Parse(quoteElement.GetProperty("02. open").GetString()!, CultureInfo.InvariantCulture),
+                HighPrice = decimal.Parse(quoteElement.GetProperty("03. high").GetString()!, CultureInfo.InvariantCulture),
+                LowPrice = decimal.Parse(quoteElement.GetProperty("04. low").GetString()!, CultureInfo.InvariantCulture),
+                ClosePrice = decimal.Parse(quoteElement.GetProperty("05. price").GetString()!, CultureInfo.InvariantCulture),
+                Volume = long.Parse(quoteElement.GetProperty("06. volume").GetString()!, CultureInfo.InvariantCulture)
             };
         }
         catch

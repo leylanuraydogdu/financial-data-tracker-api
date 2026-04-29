@@ -19,7 +19,9 @@ public class StockRepository : IStockRepository
 
     public async Task<IEnumerable<Stock>> GetAllStocksAsync()
     {
-        return await _context.Stocks.ToListAsync();
+        return await _context.Stocks
+            .Include(s => s.PriceHistory.OrderByDescending(p => p.Date))
+            .ToListAsync();
     }
 
     public async Task<Stock?> GetStockByIdAsync(int id)
