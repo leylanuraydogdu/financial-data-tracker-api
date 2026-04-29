@@ -8,6 +8,8 @@ This is a Financial Data Tracker Web API developed for the Rasyonet Software Eng
 - **Database:** SQLite (chosen for its portability and ease of setup without requiring an external database server installation)
 - **ORM:** Entity Framework Core
 - **External API:** Alpha Vantage (used for fetching global quotes of stocks)
+- **Containerization:** Docker
+- **Testing:** xUnit & Moq
 
 ## Design Patterns Used
 ### Repository Pattern
@@ -54,6 +56,25 @@ Built-in .NET DI is used throughout the application to inject Repositories into 
    ```
 5. Open your browser and navigate to the Swagger UI to test the endpoints:
    - `http://localhost:<port>/swagger/index.html` (Check the terminal output for the exact port)
+
+### Running Unit Tests
+A separate xUnit test project is included to verify the business logic. To run the tests:
+```bash
+cd FinancialTracker.Tests
+dotnet test
+```
+
+### Running with Docker (Bonus)
+You can run this application entirely within a Docker container without needing to install the .NET SDK.
+1. Build the Docker image:
+   ```bash
+   docker build -t financial-tracker-api .
+   ```
+2. Run the container:
+   ```bash
+   docker run -d -p 8080:8080 --name financial-tracker financial-tracker-api
+   ```
+3. Access the API at `http://localhost:8080/swagger`.
 
 ## Notes
 - **Database Creation:** The SQLite database (`financialtracker.db`) is automatically created upon application startup if it does not exist (`db.Database.EnsureCreated()`).
